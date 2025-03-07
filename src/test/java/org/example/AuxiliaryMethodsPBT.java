@@ -208,6 +208,8 @@ public class AuxiliaryMethodsPBT {
    */
   /*
   Possible Faults:
+  The possible fault is that the code doesn’t count n whenever n is a negative odd. For example, if n = -3, the correct
+  count is 1, but the code returns 0. That reveals the bug that x[i] % 2 == 1 does not handle negative odd values.
    */
   @Property
   void oddIntegerIsCounted(@ForAll("anyOdd") int n) {
