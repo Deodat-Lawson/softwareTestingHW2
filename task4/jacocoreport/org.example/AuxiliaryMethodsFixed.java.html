@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuxiliaryMethodsFixed.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">softwareTestingHW2</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">AuxiliaryMethodsFixed.java</span></div><h1>AuxiliaryMethodsFixed.java</h1><pre class="source lang-java linenums">package org.example;
+
+<span class="nc" id="L3">public class AuxiliaryMethodsFixed {</span>
+
+  /**
+   * Given a signed 32-bit integer x, return x with its digits reversed.
+   * If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1],
+   * then return 0.
+   *
+   * @param x the input number
+   * @return reverse of x
+   */
+  public static int reverse(int x) {
+<span class="fc" id="L14">    long rev = 0; // use long to detect overflow</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">    while (x != 0) {</span>
+<span class="fc" id="L16">      int pop = x % 10;</span>
+<span class="fc" id="L17">      x /= 10;</span>
+<span class="fc" id="L18">      rev = rev * 10 + pop;</span>
+      // Check for overflow
+<span class="fc bfc" id="L20" title="All 4 branches covered.">      if (rev &gt; Integer.MAX_VALUE || rev &lt; Integer.MIN_VALUE) {</span>
+<span class="fc" id="L21">        return 0;</span>
+      }
+<span class="fc" id="L23">    }</span>
+<span class="fc" id="L24">    return (int) rev;</span>
+  }
+
+  /**
+   * Given two strings s and t, determine if they are isomorphic.
+   * Two strings s and t are isomorphic if the characters in s can be replaced
+   * to get t. All occurrences of a character must be replaced with another
+   * character while preserving the order of characters. No two characters may
+   * map to the same character, but a character may map to itself.
+   *
+   * @param s the first string
+   * @param t the second string
+   * @return true if s and t are isomorphic, false otherwise.
+   */
+  public static boolean isIsomorphic(String s, String t) {
+    // Fix: Check length first
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (s.length() != t.length()) {</span>
+<span class="fc" id="L41">      return false;</span>
+    }
+
+<span class="fc" id="L44">    int[] mappingDictStoT = new int[256];</span>
+<span class="fc" id="L45">    int[] mappingDictTtoS = new int[256];</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    for (int i = 0; i &lt; 256; i++) {</span>
+<span class="fc" id="L48">      mappingDictStoT[i] = -1;</span>
+<span class="fc" id="L49">      mappingDictTtoS[i] = -1;</span>
+    }
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">    for (int i = 0; i &lt; s.length(); i++) {</span>
+<span class="fc" id="L53">      char c1 = s.charAt(i);</span>
+<span class="fc" id="L54">      char c2 = t.charAt(i);</span>
+
+      // case 1: if no mapping exists
+<span class="fc bfc" id="L57" title="All 4 branches covered.">      if (mappingDictStoT[c1] == -1 &amp;&amp; mappingDictTtoS[c2] == -1) {</span>
+<span class="fc" id="L58">        mappingDictStoT[c1] = c2;</span>
+<span class="fc" id="L59">        mappingDictTtoS[c2] = c1;</span>
+      }
+      // case 2: mismatch in existing mapping
+<span class="pc bpc" id="L62" title="1 of 4 branches missed.">      else if (!(mappingDictStoT[c1] == c2 &amp;&amp; mappingDictTtoS[c2] == c1)) {</span>
+<span class="fc" id="L63">        return false;</span>
+      }
+    }
+<span class="fc" id="L66">    return true;</span>
+  }
+
+  /**
+   * Count odd or positive elements.
+   *
+   * @param x array to search
+   * @return count of odd/positive values in x
+   * @throws NullPointerException if x is null
+   */
+  public static int oddOrPos(int[] x) {
+<span class="fc" id="L77">    int count = 0;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    for (int i = 0; i &lt; x.length; i++) {</span>
+      // fix: check for odd by (x[i] % 2 != 0)
+      // and also check positive.
+<span class="fc bfc" id="L81" title="All 4 branches covered.">      if ( (x[i] % 2 != 0) || (x[i] &gt; 0) ) {</span>
+<span class="fc" id="L82">        count++;</span>
+      }
+    }
+<span class="fc" id="L85">    return count;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

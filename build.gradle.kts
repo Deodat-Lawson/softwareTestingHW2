@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    jacoco
 }
 
 group = "org.example"
@@ -25,11 +26,30 @@ tasks.test {
     include("**/*Properties.class")
     include("**/*Test.class")
     include("**/*Tests.class")
-    include("**/*PBT.class")  // Add this to match your AuxiliaryMethodsPBT class
+    include("**/*PBT.class")
+    include("**/*Fixed.class")
+    finalizedBy(tasks.jacocoTestReport)
 }
-
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        xml.required = false
+        csv.required = false
+        // Set output location to task4/jacocoreport relative to the project root
+        html.outputLocation = file("$rootDir/task4/jacocoreport")
+    }
+}
 dependencies {
     testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("net.jqwik:jqwik:$jqwikVersion")
 }
+
+
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir("customJacocoReportDir")
+}
+
+
+
